@@ -1,0 +1,50 @@
+---
+title: "DEQ"
+author: "Ethan Rogers"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Plot Airduino Data
+
+```{r}
+dat <- read.csv("DEQ Data.csv")
+
+plot(dat$MSIC, pch = 19, lty = 1, type = "l", col = "red", xlab = "Hour", ylim = c(1,100), main = "Temperature and Humidity")
+lines(dat$MSIC.2, pch = 19, lty = 1, type = "l", col = "blue")
+
+legend("topleft", legend=c("Temperature", "Humidity"),
+       col=c("red", "blue"), lty = 1, cex=0.8)
+
+#lines(dat$MSIC)
+```
+
+```{r}
+plot(dat$MSIC, pch = 19, lty = 1, type = "l", col = "red", ylim = c(0, 100), main = "Temperature and Ozone", xlab = "Hour")
+lines(dat$MSIC.4, pch = 19, lty = 1, type = "l", col = "blue")
+
+legend("topleft", legend=c("Temperature", "Ozone"),
+       col=c("red", "blue"), lty = 1, cex=0.8)
+```
+
+```{r}
+plot(dat$MSIC.6, pch = 19, lty = 1, type = "l", col = "red", main = "Classes of Particles", xlab = "Hour")
+lines(dat$MSIC.8, pch = 19, lty = 1, type = "l", col = "blue")
+
+legend("topleft", legend=c("PM10", "PM2.5"),
+       col=c("red", "blue"), lty = 1, cex=0.8)
+```
+
+
+
+```{r}
+dt2 <- read.csv("CoLocationArd8Feb27.txt")
+
+plot(dat$MSIC, dt2$Temperature..C.,pch = 19, lty = 1, type = "l", col = "red", main = "Classes of Particles", xlab = "Hour")
+```
+
+
