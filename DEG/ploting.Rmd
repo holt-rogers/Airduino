@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Plot Airduino Data
+## Plot MISC Data
 
 ```{r}
 dat <- read.csv("DEQ Data.csv")
@@ -39,12 +39,43 @@ legend("topleft", legend=c("PM10", "PM2.5"),
        col=c("red", "blue"), lty = 1, cex=0.8)
 ```
 
+## Plot Data from Airduino 8
 
+Records data every 5 seconds. Started recording 10:30on 3/11 until 1:30 3/15
 
 ```{r}
+
 dt2 <- read.csv("CoLocationArd8Feb27.txt")
 
-plot(dat$MSIC, dt2$Temperature..C.,pch = 19, lty = 1, type = "l", col = "red", main = "Classes of Particles", xlab = "Hour")
+plot(dt2$Temperature..C., pch = 19, lty = 1, type = "l", col = "red", xlab = "Hour", ylim = c(1,100), main = "Temperature and Humidity")
+lines(dt2$Humidity...., pch = 19, lty = 1, type = "l", col = "blue")
+
+legend("topleft", legend=c("Temperature", "Humidity"),
+       col=c("red", "blue"), lty = 1, cex=0.8)
+
 ```
 
+### Compare Data
+
+```{r}
+# get proper time values
+m1 <- match(TRUE,dat$X == "3/11/2024 11:00")
+m2 <- match(TRUE,dat$X == "3/15/2024 1:00")
+
+real <- dat[c(m1:m2),]
+
+# remove first and last half hour
+m1 <- (30 * 60) / 5
+m2 <- dim(dt2)[1] - m1
+
+# only take even hours
+interval <- dt2[c(m1:m2),]
+interval$index <- c(0:(dim(interval)[1] - 1))
+
+hour <- (60 * 60) / 5
+found <- interval[interval$index %% hour == 0,]
+
+
+
+```
 
